@@ -19,6 +19,25 @@ a {
  box-sizing: border-box;
 }
 
+.card {
+ @apply mb-5  block   rounded-lg border border-gray-200  shadow-md;
+}
+
+.primary-button {
+ @apply rounded bg-amber-300 py-2 px-4 shadow outline-none hover:bg-amber-400  active:bg-amber-500;
+}
+
+.image-container {
+ width: 100%;
+ height: 357px;
+}
+
+.image-size {
+ height: 100%;
+ width: 100%;
+ object-fit: contain;
+}
+
 @media (prefers-color-scheme: dark) {
  html {
   color-scheme: dark;
