@@ -13,4 +13,5 @@ export type CartItemType = {
  brand: string
  price: number
  quantity: number
+ countInStock: number
 }
