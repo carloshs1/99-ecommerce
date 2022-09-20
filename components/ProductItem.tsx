@@ -1,18 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import React from 'react'
+import { ProductType } from '../utils/types'
 
-export default function ProductItem({
- product,
-}: {
- product: {
-  slug: string
-  image: string
-  name: string
-  brand: string
-  price: number
- }
-}) {
+const ProductItem = ({ product }: { product: ProductType }) => {
  return (
   <div className="card">
    <Link href={`/product/${product.slug}`}>
@@ -41,3 +32,5 @@ export default function ProductItem({
   </div>
  )
 }
+
+export default ProductItem
