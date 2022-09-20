@@ -15,3 +15,8 @@ export type CartItemType = {
  quantity: number
  countInStock: number
 }
+
+export type LoginFormValues = {
+ email: string
+ password: string
+}
