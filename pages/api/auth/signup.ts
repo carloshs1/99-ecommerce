@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import bcryptjs from 'bcryptjs'
 import User from '../../../models/User'
 import db from '../../../utils/db'
+import axios from 'axios'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
  if (req.method !== 'POST') {
@@ -39,8 +40,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
  const user = await newUser.save()
  await db.disconnect()
+
+ const { data } = await axios.post(
+  'https://prueba-tecninca-backend-qndxoltwga-uc.a.run.app/users/create',
+  {
+   FirstName: name,
+   LastName: name.substring(name.indexOf(' ') + 1) || '',
+   IsAdmin: true,
+   Email: email,
+   Password: password,
+  },
+  {
+   headers: {
+    'Content-type': 'application/json',
+   },
+  }
+ )
+
  res.status(201).send({
-  message: 'Created user!',
+  message: data.message,
   _id: user._id,
   name: user.name,
   email: user.email,

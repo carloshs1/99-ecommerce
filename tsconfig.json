@@ -22,6 +22,7 @@
   "**/*.tsx",
   "utils/Store.js",
   "pages/api/auth/[...nextauth].js",
+  "pages/api/auth/update.js",
   "pages/api/orders/history.js",
   "pages/order/[id].jsx",
   "pages/api/orders/index.js"
