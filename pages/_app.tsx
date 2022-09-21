@@ -3,6 +3,7 @@ import { StoreProvider } from '../utils/Store'
 import { SessionProvider, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { CustomAppProps } from '../utils/types'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Auth = ({ children }: { children: any }) => {
  const router = useRouter()

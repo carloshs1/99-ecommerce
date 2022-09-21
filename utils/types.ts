@@ -8,6 +8,13 @@ export type ProductType = {
  name: string
  brand: string
  price: number
+ quantity: number
+ countInStock: number
+ category: string
+ numReviews: number
+ rating: number
+ description: string
+ _id: string
 }
 
 export type CartItemType = {
@@ -18,6 +25,7 @@ export type CartItemType = {
  price: number
  quantity: number
  countInStock: number
+ _id: string
 }
 
 export type LoginFormValues = {
