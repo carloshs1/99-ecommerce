@@ -4,6 +4,7 @@ import { SessionProvider, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { CustomAppProps } from '../utils/types'
 import 'react-toastify/dist/ReactToastify.css'
+import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 
 const Auth = ({ children }: { children: any }) => {
  const router = useRouter()
@@ -27,13 +28,18 @@ const MyApp = ({
  return (
   <SessionProvider session={session}>
    <StoreProvider>
-    {Component.auth ? (
-     <Auth>
+    <PayPalScriptProvider
+     deferLoading={true}
+     options={{ 'client-id': process.env.PAYPAL_CLIENT_ID! }}
+    >
+     {Component.auth ? (
+      <Auth>
+       <Component {...pageProps} />
+      </Auth>
+     ) : (
       <Component {...pageProps} />
-     </Auth>
-    ) : (
-     <Component {...pageProps} />
-    )}
+     )}
+    </PayPalScriptProvider>
    </StoreProvider>
   </SessionProvider>
  )
