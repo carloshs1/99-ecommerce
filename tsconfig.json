@@ -21,7 +21,8 @@
   "**/*.ts",
   "**/*.tsx",
   "utils/Store.js",
-  "pages/api/auth/[...nextauth].js"
+  "pages/api/auth/[...nextauth].js",
+  "pages/api/orders/index.js"
  ],
  "exclude": ["node_modules"]
 }

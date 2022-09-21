@@ -6,7 +6,7 @@ import CheckoutWizard from '../components/CheckoutWizard'
 import Layout from '../components/Layout'
 import { Store } from '../utils/Store'
 
-export default function PaymentScreen() {
+const PaymentScreen = () => {
  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('')
 
  const { state, dispatch } = useContext(Store)
@@ -29,7 +29,7 @@ export default function PaymentScreen() {
    })
   )
 
-  router.push('/placeorder')
+  router.push('/place-order')
  }
  useEffect(() => {
   const checkForAddress = () => {
@@ -78,3 +78,7 @@ export default function PaymentScreen() {
   </Layout>
  )
 }
+
+export default PaymentScreen
+
+PaymentScreen.auth = true
