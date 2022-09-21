@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import { RegisterFormValues } from '../utils/types'
 
-export default function LoginScreen() {
+const RegisterScreen = () => {
  const { data: session } = useSession()
 
  const router = useRouter()
@@ -142,3 +142,5 @@ export default function LoginScreen() {
   </Layout>
  )
 }
+
+export default RegisterScreen

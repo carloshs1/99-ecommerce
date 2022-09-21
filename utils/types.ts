@@ -53,3 +53,13 @@ export type ShippingFormValues = {
  postalCode: string
  country: string
 }
+
+export type OrderType = {
+ _id: string
+ createdAt: string
+ totalPrice: number
+ isPaid: any
+ paidAt: string
+ isDelivered: any
+ deliveredAt: string
+}

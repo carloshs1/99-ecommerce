@@ -11,7 +11,7 @@ import { getError } from '../utils/error'
 import { Store } from '../utils/Store'
 import { CartItemType } from '../utils/types'
 
-export default function PlaceOrderScreen() {
+const PlaceOrderScreen = () => {
  const { state, dispatch } = useContext(Store)
  const { cart } = state
  const { cartItems, shippingAddress, paymentMethod } = cart
@@ -179,5 +179,7 @@ export default function PlaceOrderScreen() {
   </Layout>
  )
 }
+
+export default PlaceOrderScreen
 
 PlaceOrderScreen.auth = true

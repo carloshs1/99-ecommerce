@@ -28,7 +28,7 @@ const reducer = (state, action) => {
    state
  }
 }
-function OrderScreen() {
+const OrderScreen = () => {
  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer()
  const { query } = useRouter()
  const orderId = query.id
@@ -83,7 +83,7 @@ function OrderScreen() {
   deliveredAt,
  } = order
 
- function createOrder(data, actions) {
+ const createOrder = (data, actions) => {
   return actions.order
    .create({
     purchase_units: [
@@ -97,7 +97,7 @@ function OrderScreen() {
    })
  }
 
- function onApprove(data, actions) {
+ const onApprove = (data, actions) => {
   return actions.order.capture().then(async function (details) {
    try {
     dispatch({ type: 'PAY_REQUEST' })
@@ -110,7 +110,7 @@ function OrderScreen() {
    }
   })
  }
- function onError(err) {
+ const onError = (err) => {
   toast.error(getError(err))
  }
 
