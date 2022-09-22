@@ -137,7 +137,6 @@ const OrderScreen = () => {
    toast.error(getError(err))
   }
  }
-
  return (
   <Layout title={`Order ${orderId}`}>
    <>
