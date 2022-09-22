@@ -56,6 +56,9 @@ const PlaceOrderScreen = () => {
      cartItems: [],
     })
    )
+   await axios.post('api/orders/delivery/create-user', {
+    shippingAddress,
+   })
    router.push(`/order/${data._id}`)
   } catch (err) {
    setLoading(false)
@@ -80,7 +83,7 @@ const PlaceOrderScreen = () => {
         <div>
          {shippingAddress.fullName}, {shippingAddress.address},{' '}
          {shippingAddress.city}, {shippingAddress.postalCode},{' '}
-         {shippingAddress.country}
+         {shippingAddress.state}
         </div>
         <div>
          <Link href="/shipping">Edit</Link>

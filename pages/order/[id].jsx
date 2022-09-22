@@ -19,7 +19,11 @@ const reducer = (state, action) => {
   case 'PAY_REQUEST':
    return { ...state, loadingPay: true }
   case 'PAY_SUCCESS':
-   return { ...state, loadingPay: false, successPay: true }
+   return { ...state, loadingPay: true, successPay: true }
+  case 'ORDER_DELIVERY_SUCCESS':
+   return { ...state, loadingPay: false, successDeliverySchedule: true }
+  case 'ORDER_DELIVERY_CANCEL':
+   return { ...state, successDeliverySchedule: false }
   case 'PAY_FAIL':
    return { ...state, loadingPay: false, errorPay: action.payload }
   case 'PAY_RESET':
@@ -103,7 +107,14 @@ const OrderScreen = () => {
     dispatch({ type: 'PAY_REQUEST' })
     const { data } = await axios.put(`/api/orders/${order._id}/pay`, details)
     dispatch({ type: 'PAY_SUCCESS', payload: data })
-    toast.success('Order is paid successgully')
+    const { data: dataForDelivery } = await axios.post(
+     '/api/orders/delivery/create-order',
+     { id: order._id }
+    )
+    dispatch({ type: 'ORDER_DELIVERY_SUCCESS', payload: dataForDelivery })
+    toast.success('Order is paid successfully')
+    if (data.deliveryId === '-1')
+     toast.error('The delivery was not scheduled. Please contact support')
    } catch (err) {
     dispatch({ type: 'PAY_FAIL', payload: getError(err) })
     toast.error(getError(err))
@@ -114,6 +125,18 @@ const OrderScreen = () => {
   toast.error(getError(err))
  }
 
+ const cancelDeliveryOrderHandler = async () => {
+  try {
+   const { data } = await axios.put('/api/orders/delivery/delete-order', {
+    id: order._id,
+    deliveryId: order.deliveryId,
+   })
+   dispatch({ type: 'ORDER_DELIVERY_CANCEL', payload: data })
+   toast.success('Order delivery was cancel successfully')
+  } catch (err) {
+   toast.error(getError(err))
+  }
+ }
  return (
   <Layout title={`Order ${orderId}`}>
    <>
@@ -126,16 +149,27 @@ const OrderScreen = () => {
      <div className="grid md:grid-cols-4 md:gap-5">
       <div className="overflow-x-auto md:col-span-3">
        <div className="card  p-5">
-        <h2 className="mb-2 text-lg">Shipping Address</h2>
+        <div className="flex flex-row justify-between space-x-4">
+         <h2 className="mb-2 text-lg mt-2">Shipping Address</h2>
+         {order.deliveryId !== '-1' && (
+          <button onClick={cancelDeliveryOrderHandler}>Cancel Delivery</button>
+         )}
+        </div>
         <div>
          {shippingAddress.fullName}, {shippingAddress.address},{' '}
          {shippingAddress.city}, {shippingAddress.postalCode},{' '}
-         {shippingAddress.country}
+         {shippingAddress.state}
         </div>
         {isDelivered ? (
          <div className="alert-success">Delivered at {deliveredAt}</div>
+        ) : order.deliveryId === '-1' ? (
+         order.isPaid ? (
+          <div className="alert-error">Delivery Canceled</div>
+         ) : (
+          <div className="alert-error">Not delivered</div>
+         )
         ) : (
-         <div className="alert-error">Not delivered</div>
+         <div className="alert-info">Delivery scheduled</div>
         )}
        </div>
 

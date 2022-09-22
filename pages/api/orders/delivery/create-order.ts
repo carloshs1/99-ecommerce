@@ -11,17 +11,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
  }
 
  await db.connect()
- const order = await Order.findById(req.query.id)
+ const order = await Order.findById(req.body.id)
  if (order) {
-  if (order.isPaid) {
-   return res.status(400).send({ message: 'Error: order is already paid' })
-  }
-  order.isPaid = true
-  order.paidAt = Date.now()
-  order.paymentResult = {
-   id: req.body.id,
-   status: req.body.status,
-   email_address: req.body.email_address,
+  if (order.deliveryId !== '-1') {
+   return res
+    .status(400)
+    .send({ message: 'Error: order is already in delivery stage' })
   }
   const { user } = session
   const {
@@ -65,9 +60,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
    }
   )
   order.deliveryId = data.Order.ID
-  const paidOrder = await order.save()
+  const orderForDelivery = await order.save()
   await db.disconnect()
-  res.send({ message: 'Order paid successfully', order: paidOrder })
+  res.send({
+   message: 'Order delivery status was updated successfully',
+   order: orderForDelivery,
+  })
  } else {
   await db.disconnect()
   res.status(404).send({ message: 'Error: order not found' })

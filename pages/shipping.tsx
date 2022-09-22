@@ -23,9 +23,13 @@ const ShippingScreen = () => {
  useEffect(() => {
   setValue('fullName', shippingAddress.fullName)
   setValue('address', shippingAddress.address)
-  setValue('city', shippingAddress.city)
+  setValue('neighborhood', shippingAddress.neighborhood)
+  setValue('exNumber', shippingAddress.exNumber)
+  setValue('inNumber', shippingAddress.inNumber)
   setValue('postalCode', shippingAddress.postalCode)
-  setValue('country', shippingAddress.country)
+  setValue('phoneNumber', shippingAddress.phoneNumber)
+  setValue('city', shippingAddress.city)
+  setValue('state', shippingAddress.state)
  }, [setValue, shippingAddress])
 
  const submitHandler: SubmitHandler<FieldValues> = ({
@@ -33,11 +37,25 @@ const ShippingScreen = () => {
   address,
   city,
   postalCode,
-  country,
+  state,
+  neighborhood,
+  exNumber,
+  inNumber,
+  phoneNumber,
  }) => {
   dispatch({
    type: 'SAVE_SHIPPING_ADDRESS',
-   payload: { fullName, address, city, postalCode, country },
+   payload: {
+    fullName,
+    address,
+    city,
+    postalCode,
+    state,
+    neighborhood,
+    exNumber,
+    inNumber,
+    phoneNumber,
+   },
   })
   Cookies.set(
    'cart',
@@ -48,7 +66,11 @@ const ShippingScreen = () => {
      address,
      city,
      postalCode,
-     country,
+     state,
+     neighborhood,
+     exNumber,
+     inNumber,
+     phoneNumber,
     },
    })
   )
@@ -93,16 +115,55 @@ const ShippingScreen = () => {
       )}
      </div>
      <div className="mb-4">
-      <label htmlFor="city">City</label>
+      <label htmlFor="neighborhood">Neighborhood</label>
       <input
        className="w-full"
-       id="city"
-       {...register('city', {
-        required: 'Please enter city',
+       id="neighborhood"
+       {...register('neighborhood', {
+        required: 'Please enter neighborhood',
+        minLength: { value: 3, message: 'neighborhood is more than 2 chars' },
        })}
       />
-      {errors.city && (
-       <div className="text-red-500 ">{errors.city.message}</div>
+      {errors.neighborhood && (
+       <div className="text-red-500">{errors.neighborhood.message}</div>
+      )}
+     </div>
+     <div className="mb-4">
+      <label htmlFor="exNumber">Exterior Number</label>
+      <input
+       className="w-full"
+       id="exNumber"
+       {...register('exNumber', {
+        required: 'Please enter Exterior Number',
+        minLength: {
+         value: 3,
+         message: 'Exterior Number is more than 2 chars',
+        },
+       })}
+      />
+      {errors.exNumber && (
+       <div className="text-red-500">{errors.exNumber.message}</div>
+      )}
+     </div>
+     <div className="mb-4">
+      <label htmlFor="inNumber">Interior Number</label>
+      <input className="w-full" id="inNumber" {...register('inNumber')} />
+     </div>
+     <div className="mb-4">
+      <label htmlFor="phoneNumber">Phone Number</label>
+      <input
+       className="w-full"
+       id="phoneNumber"
+       {...register('phoneNumber', {
+        required: 'Please enter Phone Number',
+        minLength: {
+         value: 10,
+         message: 'Exterior Number is more than 9 chars',
+        },
+       })}
+      />
+      {errors.phoneNumber && (
+       <div className="text-red-500 ">{errors.phoneNumber.message}</div>
       )}
      </div>
      <div className="mb-4">
@@ -119,16 +180,29 @@ const ShippingScreen = () => {
       )}
      </div>
      <div className="mb-4">
-      <label htmlFor="country">Country</label>
+      <label htmlFor="city">City</label>
       <input
        className="w-full"
-       id="country"
-       {...register('country', {
-        required: 'Please enter country',
+       id="city"
+       {...register('city', {
+        required: 'Please enter city',
        })}
       />
-      {errors.country && (
-       <div className="text-red-500 ">{errors.country.message}</div>
+      {errors.city && (
+       <div className="text-red-500 ">{errors.city.message}</div>
+      )}
+     </div>
+     <div className="mb-4">
+      <label htmlFor="state">state</label>
+      <input
+       className="w-full"
+       id="state"
+       {...register('state', {
+        required: 'Please enter state',
+       })}
+      />
+      {errors.state && (
+       <div className="text-red-500 ">{errors.state.message}</div>
       )}
      </div>
      <div className="mb-4 flex justify-between">
