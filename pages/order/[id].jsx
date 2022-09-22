@@ -22,6 +22,8 @@ const reducer = (state, action) => {
    return { ...state, loadingPay: true, successPay: true }
   case 'ORDER_DELIVERY_SUCCESS':
    return { ...state, loadingPay: false, successDeliverySchedule: true }
+  case 'ORDER_DELIVERY_CANCEL':
+   return { ...state, successDeliverySchedule: false }
   case 'PAY_FAIL':
    return { ...state, loadingPay: false, errorPay: action.payload }
   case 'PAY_RESET':
@@ -123,7 +125,18 @@ const OrderScreen = () => {
   toast.error(getError(err))
  }
 
- console.warn({ order })
+ const cancelDeliveryOrderHandler = async () => {
+  try {
+   const { data } = await axios.put('/api/orders/delivery/delete-order', {
+    id: order._id,
+    deliveryId: order.deliveryId,
+   })
+   dispatch({ type: 'ORDER_DELIVERY_CANCEL', payload: data })
+   toast.success('Order delivery was cancel successfully')
+  } catch (err) {
+   toast.error(getError(err))
+  }
+ }
 
  return (
   <Layout title={`Order ${orderId}`}>
@@ -137,16 +150,25 @@ const OrderScreen = () => {
      <div className="grid md:grid-cols-4 md:gap-5">
       <div className="overflow-x-auto md:col-span-3">
        <div className="card  p-5">
-        <h2 className="mb-2 text-lg">Shipping Address</h2>
+        <div className="flex flex-row justify-between space-x-4">
+         <h2 className="mb-2 text-lg mt-2">Shipping Address</h2>
+         {order.deliveryId !== '-1' && (
+          <button onClick={cancelDeliveryOrderHandler}>Cancel Delivery</button>
+         )}
+        </div>
         <div>
          {shippingAddress.fullName}, {shippingAddress.address},{' '}
          {shippingAddress.city}, {shippingAddress.postalCode},{' '}
-         {shippingAddress.country}
+         {shippingAddress.state}
         </div>
         {isDelivered ? (
          <div className="alert-success">Delivered at {deliveredAt}</div>
         ) : order.deliveryId === '-1' ? (
-         <div className="alert-error">Not delivered</div>
+         order.isPaid ? (
+          <div className="alert-error">Delivery Canceled</div>
+         ) : (
+          <div className="alert-error">Not delivered</div>
+         )
         ) : (
          <div className="alert-info">Delivery scheduled</div>
         )}

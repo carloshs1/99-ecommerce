@@ -70,7 +70,9 @@ function OrderHistoryScreen() {
            {order.isDelivered
             ? `${order.deliveredAt.substring(0, 10)}`
             : order.deliveryId === '-1'
-            ? 'not delivered'
+            ? order.isPaid
+              ? 'Delivery Canceled'
+              : 'not delivered'
             : 'Delivery scheduled'}
           </td>
           <td className=" p-5 ">
