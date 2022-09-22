@@ -66,4 +66,5 @@ export type OrderType = {
  paidAt: string
  isDelivered: any
  deliveredAt: string
+ deliveryId: string
 }
