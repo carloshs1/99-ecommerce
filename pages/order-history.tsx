@@ -17,7 +17,7 @@ function reducer(state: any, action: { type: any; payload?: any }) {
    return state
  }
 }
-function OrderHistoryScreen() {
+const OrderHistoryScreen = () => {
  const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
   loading: true,
   orders: [],
