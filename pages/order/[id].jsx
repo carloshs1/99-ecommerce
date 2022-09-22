@@ -106,11 +106,11 @@ const OrderScreen = () => {
    try {
     dispatch({ type: 'PAY_REQUEST' })
     const { data } = await axios.put(`/api/orders/${order._id}/pay`, details)
-    dispatch({ type: 'PAY_SUCCESS', payload: data })
     const { data: dataForDelivery } = await axios.post(
      '/api/orders/delivery/create-order',
      { id: order._id }
     )
+    dispatch({ type: 'PAY_SUCCESS', payload: data })
     dispatch({ type: 'ORDER_DELIVERY_SUCCESS', payload: dataForDelivery })
     toast.success('Order is paid successfully')
     if (data.deliveryId === '-1')
