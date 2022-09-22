@@ -56,6 +56,9 @@ const PlaceOrderScreen = () => {
      cartItems: [],
     })
    )
+   await axios.post('api/orders/delivery/create-user', {
+    shippingAddress,
+   })
    router.push(`/order/${data._id}`)
   } catch (err) {
    setLoading(false)

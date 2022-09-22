@@ -19,7 +19,9 @@ const reducer = (state, action) => {
   case 'PAY_REQUEST':
    return { ...state, loadingPay: true }
   case 'PAY_SUCCESS':
-   return { ...state, loadingPay: false, successPay: true }
+   return { ...state, loadingPay: true, successPay: true }
+  case 'ORDER_DELIVERY_SUCCESS':
+   return { ...state, loadingPay: false, successDeliverySchedule: true }
   case 'PAY_FAIL':
    return { ...state, loadingPay: false, errorPay: action.payload }
   case 'PAY_RESET':
@@ -33,12 +35,14 @@ const OrderScreen = () => {
  const { query } = useRouter()
  const orderId = query.id
 
- const [{ loading, error, order, successPay, loadingPay }, dispatch] =
-  useReducer(reducer, {
-   loading: true,
-   order: {},
-   error: '',
-  })
+ const [
+  { loading, error, order, successPay, loadingPay, successDeliverySchedule },
+  dispatch,
+ ] = useReducer(reducer, {
+  loading: true,
+  order: {},
+  error: '',
+ })
  useEffect(() => {
   const fetchOrder = async () => {
    try {
@@ -103,6 +107,11 @@ const OrderScreen = () => {
     dispatch({ type: 'PAY_REQUEST' })
     const { data } = await axios.put(`/api/orders/${order._id}/pay`, details)
     dispatch({ type: 'PAY_SUCCESS', payload: data })
+    const { data: dataForDelivery } = await axios.post(
+     '/api/orders/delivery/create-order',
+     { id: order._id }
+    )
+    dispatch({ type: 'ORDER_DELIVERY_SUCCESS', payload: dataForDelivery })
     toast.success('Order is paid successfully')
     if (data.deliveryId === '-1')
      toast.error('The delivery was not scheduled. Please contact support')
@@ -138,8 +147,10 @@ const OrderScreen = () => {
         </div>
         {isDelivered ? (
          <div className="alert-success">Delivered at {deliveredAt}</div>
-        ) : (
+        ) : successDeliverySchedule === '-1' ? (
          <div className="alert-error">Not delivered</div>
+        ) : (
+         <div className="alert-info">Delivery scheduled</div>
         )}
        </div>
 
