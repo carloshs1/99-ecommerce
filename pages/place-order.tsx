@@ -80,7 +80,7 @@ const PlaceOrderScreen = () => {
         <div>
          {shippingAddress.fullName}, {shippingAddress.address},{' '}
          {shippingAddress.city}, {shippingAddress.postalCode},{' '}
-         {shippingAddress.country}
+         {shippingAddress.state}
         </div>
         <div>
          <Link href="/shipping">Edit</Link>

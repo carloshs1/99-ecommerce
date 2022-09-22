@@ -103,7 +103,9 @@ const OrderScreen = () => {
     dispatch({ type: 'PAY_REQUEST' })
     const { data } = await axios.put(`/api/orders/${order._id}/pay`, details)
     dispatch({ type: 'PAY_SUCCESS', payload: data })
-    toast.success('Order is paid successgully')
+    toast.success('Order is paid successfully')
+    if (data.deliveryId === '-1')
+     toast.error('The delivery was not scheduled. Please contact support')
    } catch (err) {
     dispatch({ type: 'PAY_FAIL', payload: getError(err) })
     toast.error(getError(err))
@@ -113,6 +115,8 @@ const OrderScreen = () => {
  const onError = (err) => {
   toast.error(getError(err))
  }
+
+ console.warn({ order })
 
  return (
   <Layout title={`Order ${orderId}`}>
