@@ -51,7 +51,11 @@ export type ShippingFormValues = {
  address: string
  city: string
  postalCode: string
- country: string
+ state: string
+ neighborhood: string
+ exNumber: string
+ inNumber: string
+ phoneNumber: string
 }
 
 export type OrderType = {

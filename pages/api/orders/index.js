@@ -13,9 +13,11 @@ const handler = async (req, res) => {
  const newOrder = new Order({
   ...req.body,
   user: user._id,
+  deliveryId: '-1',
  })
 
  const order = await newOrder.save()
+
  res.status(201).send(order)
 }
 export default handler
