@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+# How to run the project
+- You need to clone the project from github by clicking on the Green button 'Code'
+- The site is an e-commerce. You need to create an account and create an order by following the steps
+- You need a mock credit card to make a purchase an consume the delivery enpoints, Use this data to pay: <img width="378" alt="Captura de Pantalla 2022-09-22 a la(s) 6 46 51" src="https://user-images.githubusercontent.com/110213129/191738542-aec07fc9-ea21-4efc-bfb9-14bd66c04b16.png">
+- This credit card only works if we select the united states at checkout
+- Once you pay, the delivery status is handled by the required endpoints for the exercise. You create the delivery order after paying and you can cancel the delivery by clicking th button next to the shipping information in the order details
+
 ## Getting Started
 
 First, run the development server:
