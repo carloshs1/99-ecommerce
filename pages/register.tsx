@@ -134,8 +134,8 @@ const RegisterScreen = () => {
      <button className="primary-button">Register</button>
     </div>
     <div className="mb-4 ">
-     Don&apos;t have an account? &nbsp;
-     <Link href={`/register?redirect=${redirect || '/'}`}>Register</Link>
+     Do you have an account? &nbsp;
+     <Link href={`/login?redirect=${redirect || '/'}`}>Login</Link>
     </div>
    </form>
   </Layout>
