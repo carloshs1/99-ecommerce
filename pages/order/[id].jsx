@@ -35,14 +35,12 @@ const OrderScreen = () => {
  const { query } = useRouter()
  const orderId = query.id
 
- const [
-  { loading, error, order, successPay, loadingPay, successDeliverySchedule },
-  dispatch,
- ] = useReducer(reducer, {
-  loading: true,
-  order: {},
-  error: '',
- })
+ const [{ loading, error, order, successPay, loadingPay }, dispatch] =
+  useReducer(reducer, {
+   loading: true,
+   order: {},
+   error: '',
+  })
  useEffect(() => {
   const fetchOrder = async () => {
    try {
@@ -147,7 +145,7 @@ const OrderScreen = () => {
         </div>
         {isDelivered ? (
          <div className="alert-success">Delivered at {deliveredAt}</div>
-        ) : successDeliverySchedule === '-1' ? (
+        ) : order.deliveryId === '-1' ? (
          <div className="alert-error">Not delivered</div>
         ) : (
          <div className="alert-info">Delivery scheduled</div>
